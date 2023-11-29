@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,7 +48,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -118,7 +120,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -130,3 +138,5 @@ EMAIL_HOST_USER = 'austineomodi@gmail.com'
 EMAIL_HOST_PASSWORD = 'Austine8038'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+django_heroku.settings(locals())
